@@ -9,7 +9,7 @@ module Lagunitas
     end
 
     def app
-      @app ||= App.new(app_path)
+      @app ||= App.new(app_path, path)
     end
 
     def app_path
