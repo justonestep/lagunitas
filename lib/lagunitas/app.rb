@@ -3,7 +3,7 @@ require 'pngdefry'
 
 module Lagunitas
   class App
-    attr_reader :real_path
+    attr_reader :path, :real_path
 
     def initialize(path, real_path)
       @path = path

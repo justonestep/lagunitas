@@ -28,6 +28,14 @@ module Lagunitas
       assert_nil @app.icon(1024)
     end
 
+    def test_path
+      assert_match(/Payload\/Sample\.app*/, @app.path)
+    end
+
+    def test_real_path
+      assert_equal 'test/data/Sample.ipa', @app.real_path
+    end
+
     def teardown
       @ipa.cleanup if @ipa
     end

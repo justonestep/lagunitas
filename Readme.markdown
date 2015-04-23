@@ -21,6 +21,9 @@ Or install it yourself as:
 ## Usage
 
 ``` ruby
+require "lagunitas"
+require "securerandom"
+
 ipa = Lagunitas::IPA.new('path/to/Your.ipa')
 
 # Unzip and create app
@@ -31,6 +34,8 @@ app.identifier    #=> com.samsoffes.Sample
 app.display_name  #=> Sample
 app.version       #=> 13
 app.short_version #=> 2.2
+app.path          #=> tmp/path/to/app
+app.real_path     #=> real/path/to/app
 
 # Get an icon path at a specific size
 app.icon(40)      #=> '/absolute/path/to/Icon20x20@2x.png'
