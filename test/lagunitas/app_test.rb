@@ -39,5 +39,17 @@ module Lagunitas
     def teardown
       @ipa.cleanup if @ipa
     end
+
+    def test_team_name
+      assert_equal 'Nothing Magical Inc.', @app.certificate['TeamName']
+    end
+
+    def test_name
+      assert_equal 'iOS Team Provisioning Profile: *', @app.certificate['Name']
+    end
+
+    def test_expiration_date
+      assert_equal '2014-10-30 18:23:25 +0100', @app.certificate['ExpirationDate'].to_s
+    end
   end
 end
