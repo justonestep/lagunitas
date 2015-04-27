@@ -41,15 +41,15 @@ module Lagunitas
     end
 
     def test_team_name
-      assert_equal 'Nothing Magical Inc.', @app.certificate['TeamName']
+      assert_equal 'Nothing Magical Inc.', @app.team_name
     end
 
-    def test_name
-      assert_equal 'iOS Team Provisioning Profile: *', @app.certificate['Name']
+    def test_certificate_name
+      assert_equal 'iOS Team Provisioning Profile: *', @app.certificate_name
     end
 
     def test_expiration_date
-      assert_equal '2014-10-30 18:23:25 +0100', @app.certificate['ExpirationDate'].to_s
+      assert_equal '2014-10-30 18:23:25 +0100', @app.expiration_date.to_s
     end
   end
 end

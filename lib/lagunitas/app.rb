@@ -62,7 +62,7 @@ module Lagunitas
       certificate['TeamName']
     end
 
-    def name
+    def certificate_name
       certificate['Name']
     end
 
