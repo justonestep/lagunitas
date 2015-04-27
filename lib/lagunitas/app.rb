@@ -55,7 +55,7 @@ module Lagunitas
     end
 
     def certificate
-      @certificate ||= change_certificate
+      @certificate ||= get_certificate
     end
 
     def team_name
@@ -72,8 +72,8 @@ module Lagunitas
 
     private
 
-    def change_certificate
-      certificate ||= File.read(File.join(@path, 'embedded.mobileprovision'))
+    def get_certificate
+      certificate = File.read(File.join(@path, 'embedded.mobileprovision'))
       require 'iconv' unless String.method_defined?(:encode)
       if String.method_defined?(:encode)
         certificate.encode!('UTF-16', 'UTF-8', :invalid => :replace, :replace => '')
@@ -83,11 +83,10 @@ module Lagunitas
         certificate = ic.iconv(certificate)
       end
 
-      certificate.gsub!(/.*(?=<\?xml)/){|s|''}
+      certificate.gsub!(/^.*(?=<\?xml)/){|s|''}
       certificate.gsub!(/(?<=<\/plist>).*$/m){|s|''}
 
-      File.open(File.join(@path, 'embedded.mobileprovision'), 'w') { |file| file.write(certificate) }
-      CFPropertyList.native_types(CFPropertyList::List.new(file: File.join(@path, 'embedded.mobileprovision')).value)
+      CFPropertyList.native_types(CFPropertyList::List.new(data: certificate).value)
     end
 
     def get_image(name)
