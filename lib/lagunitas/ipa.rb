@@ -3,9 +3,13 @@ require 'fileutils'
 require 'securerandom'
 
 module Lagunitas
+  class NotFoundError < StandardError; end
+  class NotIpaFileError < StandardError; end
+
   class IPA
     def initialize(path)
       @path = path
+      raise NotFoundError, "'#{path}'" unless File.exist? @path
     end
 
     def app
@@ -28,12 +32,16 @@ module Lagunitas
       return if @contents
       @contents = "tmp/lagunitas-#{SecureRandom.hex}"
 
-      Zip::File.open(@path) do |zip_file|
-        zip_file.each do |f|
-          f_path = File.join(@contents, f.name)
-          FileUtils.mkdir_p(File.dirname(f_path))
-          zip_file.extract(f, f_path) unless File.exist?(f_path)
+      begin
+        Zip::File.open(@path) do |zip_file|
+          zip_file.each do |f|
+            f_path = File.join(@contents, f.name)
+            FileUtils.mkdir_p(File.dirname(f_path))
+            zip_file.extract(f, f_path) unless File.exist?(f_path)
+          end
         end
+      rescue Zip::ZipError => e
+        raise NotIpaFileError, e.message
       end
 
       @contents
